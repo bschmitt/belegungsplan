@@ -8,9 +8,13 @@ Version: 1.0.0
 Author URI: http://www.bseweb.de
 */
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL); ini_set('display_errors', 1);
 
+/**
+ * Belegungsplan
+ *
+ * @author Björn Schmitt <bjoern@bseweb.de>
+ */
 class Belegungsplan {
 
 	/**
@@ -299,59 +303,6 @@ class Belegungsplan {
 			'X-Mailer: PHP/' . phpversion();
 
 		mail($this->infoEmail, 'Hallenanfrage', $msg, $header);
-	}
-
-	/**
-	 * Importer
-	 */
-	public function import() {
-
-		$res = $this->wpdb->get_results('select * from wp_agwv_booking');
-
-		foreach ($res as $i) {
-
-			$start = $this->wpdb->get_col('select min(booking_date) from wp_agwv_bookingdates where booking_id = ' . $i->booking_id);
-
-			$t = explode(' ', $start[0]);
-			$d = explode(' - ', $t[0]);
-			$z = explode(':', $t[1]);
-
-			$start = mktime($z[0], $z[1], 0, $d[1], $d[2], $d[0]);
-
-			$end = $this->wpdb->get_col('select max(booking_date) from wp_agwv_bookingdates where booking_id = ' . $i->booking_id);
-
-			$t = explode(' ', $end[0]);
-			$d = explode(' - ', $t[0]);
-			$z = explode(':', $t[1]);
-
-			$end = mktime($z[0], $z[1], 0, $d[1], $d[2], $d[0]);
-
-			/*
-					* text^name1^Rosenmontagstreiben text^secondname1^AG Fasching~email^email1^bjoern@walhausen.de~text^phone1^~textarea^details1^Rosenmontagstreiben
-					*/
-
-			$t = explode('~', $i->form);
-
-			$res = array();
-			foreach ($t as $l) {
-				$q = explode(" ^", $l);
-				$res[$q[1]] = $q[2];
-			}
-
-			/*
-					* Array ( [name1] => Rosenmontagstreiben [secondname1] => AG Fasching [email1] => bjoern@walhausen.de [phone1] => [details1] => Rosenmontagstreiben )
-					*/
-
-			print_r($res);
-
-			$this->wpdb->query("INSERT INTO " . $this->table . " SET title = '$res[name1]', name = '$res[secondname1]', email = '$res[email1]', phone = '$res[phone1]', description = '$res[details1]', start = $start, end = $end, allday = 1, published = 1");
-
-			//$this->wpdb->query('INSERT INTO '.$this->table.' ')
-
-		}
-
-		exit;
-
 	}
 
 }

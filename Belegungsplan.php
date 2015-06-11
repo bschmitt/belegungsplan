@@ -41,7 +41,7 @@ class Belegungsplan {
 	/**
 	 * @var string
 	 */
-	protected $infoEmail = 'agseite@koehlertage.de';
+	protected $infoEmail = 'mail@tld.de';
 
 	/**
 	 * Init
@@ -254,20 +254,20 @@ class Belegungsplan {
 	 */
 	private function sendInfoEmail($data) {
 
-		$msg = 'Köhlerhallenanfrage' . PHP_EOL;
+		$msg = 'Anfrage' . PHP_EOL;
 		$msg .= '-------------------' . PHP_EOL . PHP_EOL;
 		$msg .= 'Zeitraum:        ' . date('d.m.Y', $data['start']) . ' - ' . date('d.m.Y', $data['end']) . PHP_EOL;
 		$msg .= 'Veranstaltung:   ' . $data['title'] . PHP_EOL;
 		$msg .= 'Ansprechpartner: ' . $data['name'] . ' (Tel: ' . $data['phone'] . ')' . PHP_EOL;
 		$msg .= 'Email:           ' . $data['email'] . PHP_EOL;
 		$msg .= 'Privat:          ' . (($data['private'] == 1) ? 'Ja' : 'Nein') . PHP_EOL . PHP_EOL;
-		$msg .= 'Verwaltung:      http://www.ag-walhausen.de/wp-admin/admin.php?page=belegungsplan';
+		$msg .= 'Verwaltung:      http://www.tld.de/wp-admin/admin.php?page=belegungsplan';
 
-		$header = 'From: Köhlerhalle <website@ag-walhausen.de>' . PHP_EOL .
+		$header = 'From: Anfrage <website@tld.de>' . PHP_EOL .
 			'Reply-To: ' . $data['email'] . PHP_EOL .
 			'X-Mailer: PHP/' . phpversion();
 
-		mail($this->infoEmail, 'Hallenanfrage', $msg, $header);
+		mail($this->infoEmail, 'Anfrage', $msg, $header);
 	}
 
 	/**
@@ -288,21 +288,21 @@ class Belegungsplan {
 
 		if ($accepted) {
 			$msg .= 'Vielen Dank für Ihre Anfrage. Hiermit bestätigen wir die Buchung.' . PHP_EOL . PHP_EOL;
-			$msg .= 'Die Schlüsselübergabe, Infos zum Ein- und Ausräumen und die Hallenübergabe erfolgt durch unseren Hausmeister Herrn Gerhard Kreuz: Auf der Ritzwiese 15, 66625 Nohfelden-Walhausen, Tel. 06852 81203 oder 06852 284965.' . PHP_EOL;
+			$msg .= 'Die Schlüsselübergabe, Infos zum Ein- und Ausräumen und die Hallenübergabe erfolgt durch unseren Hausmeister.' . PHP_EOL;
 			$msg .= 'Bitte vereinbaren Sie dazu einen Termin.' . PHP_EOL . PHP_EOL;
-			$msg .= 'Adresse Köhlerhalle: Brunnenstrasse 18a, Hallentelefon: 06852 82300' . PHP_EOL . PHP_EOL;
-			$msg .= 'Weitere Informationen entnehmen Sie bitte unserer Webseite:' . PHP_EOL . 'http://www.ag-walhausen.de/kohlerhalle/';
+			$msg .= 'Adresse Halle: 11111 Ort' . PHP_EOL . PHP_EOL;
+			$msg .= 'Weitere Informationen entnehmen Sie bitte unserer Webseite:' . PHP_EOL . 'http://www.tld.de/';
 		} else {
 			$msg .= 'Vielen Dank für Ihre Anfrage. Leider ist eine Vermietung zum besagten Zeitraum nicht möglich. Wir bitten Sie dies zu entschuldigen.';
 		}
 
-		$msg .= PHP_EOL . PHP_EOL . 'Mit freundlichen Grüßen,' . PHP_EOL . 'Ihre Arbeitsgemeinschaft Walhauser Vereine';
+		$msg .= PHP_EOL . PHP_EOL . 'Mit freundlichen Grüßen,' . PHP_EOL . 'Ihre Org';
 
-		$header = 'From: Köhlerhalle <website@ag-walhausen.de>' . PHP_EOL .
+		$header = 'From: Webseite <website@tld.de>' . PHP_EOL .
 			'Reply-To: ' . $data['email'] . PHP_EOL .
 			'X-Mailer: PHP/' . phpversion();
 
-		mail($this->infoEmail, 'Hallenanfrage', $msg, $header);
+		mail($this->infoEmail, 'Anfrage', $msg, $header);
 	}
 
 }
